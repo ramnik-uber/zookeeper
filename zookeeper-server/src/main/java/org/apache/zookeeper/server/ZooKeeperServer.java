@@ -1674,6 +1674,10 @@ public class ZooKeeperServer implements SessionExpirer, ServerStats.Provider {
                 // Authentication enforcement is failed
                 // Already sent response to user about failure and closed the session, lets return
                 return;
+            } else if (!authHelper.enforceAuthenticationCreds(cnxn, h.getXid())) {
+                // Authentication enforcement with creds has failed
+                // Already sent response to user about failure and closed the session, lets return
+                return;
             } else {
                 Request si = new Request(cnxn, cnxn.getSessionId(), h.getXid(), h.getType(), incomingBuffer, cnxn.getAuthInfo());
                 int length = incomingBuffer.limit();
